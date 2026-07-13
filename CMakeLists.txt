@@ -40,4 +40,39 @@ set_target_properties(cia402::cia402 PROPERTIES
     INTERFACE_INCLUDE_DIRECTORIES "${CIA402_INCLUDE_DIR}"
 )
 
-# Library targets will be added after the public API and implementation are defined.
+file(MAKE_DIRECTORY "${ROBOT_RUNTIME_LIBRARY_OUTPUT_DIR}")
+
+if(ROBOT_RUNTIME_BUILD_SHARED)
+    set(ROBOT_RUNTIME_LIBRARY_TYPE SHARED)
+else()
+    set(ROBOT_RUNTIME_LIBRARY_TYPE STATIC)
+endif()
+
+add_library(robot_runtime ${ROBOT_RUNTIME_LIBRARY_TYPE}
+    src/robot_runtime.cpp
+)
+
+add_library(robot_runtime::robot_runtime ALIAS robot_runtime)
+
+target_include_directories(robot_runtime
+    PUBLIC
+        $<BUILD_INTERFACE:${ROBOT_RUNTIME_PUBLIC_INCLUDE_DIR}>
+        $<INSTALL_INTERFACE:include>
+)
+
+target_link_libraries(robot_runtime
+    PUBLIC
+        cia402::cia402
+)
+
+set_target_properties(robot_runtime PROPERTIES
+    OUTPUT_NAME robot_runtime
+    VERSION ${PROJECT_VERSION}
+    SOVERSION ${PROJECT_VERSION_MAJOR}
+    PUBLIC_HEADER "${ROBOT_RUNTIME_PUBLIC_HEADER}"
+    LIBRARY_OUTPUT_DIRECTORY "${ROBOT_RUNTIME_LIBRARY_OUTPUT_DIR}"
+    ARCHIVE_OUTPUT_DIRECTORY "${ROBOT_RUNTIME_LIBRARY_OUTPUT_DIR}"
+    RUNTIME_OUTPUT_DIRECTORY "${ROBOT_RUNTIME_LIBRARY_OUTPUT_DIR}"
+    CXX_VISIBILITY_PRESET hidden
+    VISIBILITY_INLINES_HIDDEN YES
+)

@@ -2,7 +2,8 @@
 
 RobotRuntime 是面向多轴机器人实时周期调用的通用业务库工程。
 
-当前阶段只建立工程框架，不包含公开 API、业务变量、CiA402 封装或运行时实现。
+当前提供多轴机器人运行时数据、整机使能、模式切换、回零和清错接口，
+内部通过 CiA402 SDK 对各机器人本体轴执行单周期状态控制。
 
 工程包含两个独立子仓库：
 
@@ -47,11 +48,11 @@ cmake -S . -B build
 cmake --build build
 ```
 
-当前 CMake 已导入 `cia402::cia402` 依赖，并预留以下 RobotRuntime 交付路径：
+当前 CMake 已导入 `cia402::cia402` 依赖，并使用以下 RobotRuntime 交付路径：
 
 ```text
 公开头文件：sdk/include/robot_runtime/robot_runtime.h
 动态库目录：sdk/lib/
 ```
 
-当前不会生成 RobotRuntime 动态库或示例程序，相关 Target 将在接口设计确定后接入。
+构建生成 `librobot_runtime.so` 及其版本软链接。当前尚未提供示例程序。
