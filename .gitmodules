@@ -1,0 +1,6 @@
+[submodule "third_party/cia402"]
+	path = third_party/cia402
+	url = https://github.com/chuhaoxian116/work-CiA402-SDK.git
+[submodule "sdk"]
+	path = sdk
+	url = https://github.com/chuhaoxian116/work-RobotRuntime-SDK.git
