@@ -61,7 +61,7 @@ target_include_directories(robot_runtime
 )
 
 target_link_libraries(robot_runtime
-    PUBLIC
+    PRIVATE
         cia402::cia402
 )
 
