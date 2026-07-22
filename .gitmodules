@@ -4,3 +4,6 @@
 [submodule "sdk"]
 	path = sdk
 	url = https://github.com/chuhaoxian116/work-RobotRuntime-SDK.git
+[submodule "third_party/robot_interface"]
+	path = third_party/robot_interface
+	url = https://github.com/chuhaoxian116/work-RobotInterface-SDK.git

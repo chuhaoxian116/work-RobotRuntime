@@ -17,6 +17,14 @@ set(CIA402_SDK_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third_party/cia402")
 set(CIA402_INCLUDE_DIR "${CIA402_SDK_DIR}/include")
 set(CIA402_LIBRARY "${CIA402_SDK_DIR}/lib/libcia402.so")
 
+set(ROBOT_INTERFACE_SDK_DIR
+    "${CMAKE_CURRENT_SOURCE_DIR}/third_party/robot_interface"
+)
+set(ROBOT_INTERFACE_INCLUDE_DIR "${ROBOT_INTERFACE_SDK_DIR}/include")
+set(ROBOT_INTERFACE_PUBLIC_HEADER
+    "${ROBOT_INTERFACE_INCLUDE_DIR}/robot_data.h"
+)
+
 set(ROBOT_RUNTIME_SDK_DIR "${CMAKE_CURRENT_SOURCE_DIR}/sdk")
 set(ROBOT_RUNTIME_PUBLIC_INCLUDE_DIR "${ROBOT_RUNTIME_SDK_DIR}/include")
 set(ROBOT_RUNTIME_PUBLIC_HEADER
@@ -26,6 +34,7 @@ set(ROBOT_RUNTIME_LIBRARY_OUTPUT_DIR "${ROBOT_RUNTIME_SDK_DIR}/lib")
 
 if(NOT EXISTS "${CIA402_INCLUDE_DIR}/cia402/cia402.h" OR
    NOT EXISTS "${CIA402_LIBRARY}" OR
+   NOT EXISTS "${ROBOT_INTERFACE_PUBLIC_HEADER}" OR
    NOT EXISTS "${ROBOT_RUNTIME_PUBLIC_HEADER}")
     message(FATAL_ERROR
         "SDK submodules are not initialized. Run: "
@@ -57,11 +66,12 @@ add_library(robot_runtime::robot_runtime ALIAS robot_runtime)
 target_include_directories(robot_runtime
     PUBLIC
         $<BUILD_INTERFACE:${ROBOT_RUNTIME_PUBLIC_INCLUDE_DIR}>
+        $<BUILD_INTERFACE:${ROBOT_INTERFACE_INCLUDE_DIR}>
         $<INSTALL_INTERFACE:include>
 )
 
 target_link_libraries(robot_runtime
-    PRIVATE
+    PUBLIC
         cia402::cia402
 )
 
